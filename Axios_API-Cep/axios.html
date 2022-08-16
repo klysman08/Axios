@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Javascript</title>
+    <style>
+        body {
+            font-family: Avenir, Helvetica, Arial, sans-serif;
+            background: #364253;
+            color: #dadce7;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 300px;
+            grid-template-rows: auto;
+            justify-content: center;
+            align-content: center;
+        }
+
+        #app {
+            background: #fff;
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            justify-content: center;
+            border-radius: 0.4rem;
+            padding: 7.5rem 7rem;
+            width: 100%;
+            box-shadow: 2px 8px 11px rgba(0, 0, 0, 0.2);
+            align-items: center;
+            text-align: center;
+
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-auto-rows: auto;
+            grid-gap: 2rem;
+            justify-items: center;
+        }
+
+        form input {
+            border: none;
+            font-size: 1.3rem;
+            font-weight: 100;
+            color: #000;
+            width: 120px;
+            outline: none;
+            padding: 0;
+        }
+
+        form input::placeholder {
+            color: #969696;
+        }
+
+        form button {
+            padding: 0.5rem 1rem;
+            color: #fff;
+            border-radius: 5rem;
+            border: none;
+            width: max-content;
+            font-size: 1.3rem;
+            background: linear-gradient(to right, #4091dd, #28b4d2);
+            font-weight: 100;
+            outline: none;
+            cursor: pointer;
+            transition: all 2.2s ease-in-out;
+        }
+
+        main {
+            position: relative;
+            top: 2rem;
+            height: 5rem;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            transition: all 1s;
+        }
+
+        p:nth-child(1) {
+            padding-top: 1.3rem;
+        }
+
+        p {
+            color: #4091dd;
+            font-size: 1.1rem;
+            margin: 0.6rem 0;
+        }
+
+        #map {
+            height: 300px;
+            /* The height is 400 pixels */
+            width: 300px;
+            position: relative;
+            /* The width is the width of the web page */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <form>
+            <input type="text" maxlength="9" required placeholder="Digite o CEP" />
+            <button>Consultar CEP</button>
+        </form>
+        <main></main>
+    </div>
+    <div id="map"></div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./app.js"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCx_YnOCfutsWOo5xYxtHPJl3QRC_r7rQ&callback=initMap&v=weekly"
+        defer></script>
+</body>
+
+</html>
