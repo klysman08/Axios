@@ -47,6 +47,24 @@ var geocoder;
 var map;
 var address = "UFMG";
 
+const myPromise = new Promise((resolve, reject) => {
+  return function codeAddress(geocoder, map) {
+    geocoder.geocode({ address: address }, function (results, status) {
+      if (status === "OK") {
+        map.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+          map: map,
+          position: results[0].geometry.location,
+        });
+      } else {
+        console.log(
+          "Geocode was not successful for the following reason: " + status
+        );
+      }
+    });
+  };
+});
+
 function initMap() {
   var map = new google.maps.Map(document.getElementById("map"), {
     zoom: 8,
@@ -54,20 +72,4 @@ function initMap() {
   });
   geocoder = new google.maps.Geocoder();
   codeAddress(geocoder, map);
-}
-
-function codeAddress(geocoder, map) {
-  geocoder.geocode({ address: address }, function (results, status) {
-    if (status === "OK") {
-      map.setCenter(results[0].geometry.location);
-      var marker = new google.maps.Marker({
-        map: map,
-        position: results[0].geometry.location,
-      });
-    } else {
-      console.log(
-        "Geocode was not successful for the following reason: " + status
-      );
-    }
-  });
 }
