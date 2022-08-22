@@ -4,39 +4,86 @@ const headersEl = document.getElementById("headers");
 const configEl = document.getElementById("config");
 
 const get = () => {
+    const config = {
+        params: {
+            _limit: 5,
+        },
+    };
     axios
-        .get("https://jsonplaceholder.typicode.com/posts", {
-            params: {
-                _limit: 2,
-            },
-        })
-        .then((response) => {
-            renderOutput(response);
-        });
+        .get("https://jsonplaceholder.typicode.com/posts", config)
+        .then((response) => renderOutput(response));
 };
 
 const post = () => {
-    console.log("post");
+    const data = {
+        title: "Klysman",
+        body: "bar",
+        userId: 1,
+    };
+    axios
+        .post("https://jsonplaceholder.typicode.com/posts", data)
+        .then((response) => renderOutput(response));
 };
 
 const put = () => {
-    console.log("put");
+    /* ideal para substituir todos os campos dos dados. */
+    const data = {
+        title: "Klysman",
+        body: "bar",
+        userId: 1,
+    };
+    axios
+        .put("https://jsonplaceholder.typicode.com/posts/1", data)
+        .then((response) => renderOutput(response));
 };
 
 const patch = () => {
-    console.log("patch");
+    /* para correções pequenas nos dados */
+    const data = {
+        title: "Klysman2",
+        body: "bar2",
+    };
+    axios
+        .patch("https://jsonplaceholder.typicode.com/posts/1", data)
+        .then((response) => renderOutput(response));
 };
 
 const del = () => {
-    console.log("delete");
+    const id = 12;
+    axios
+        .delete(`https://jsonplaceholder.typicode.com/posts/${id}`)
+        .then((response) => renderOutput(response));
 };
 
 const multiple = () => {
-    console.log("multiple");
+    Promise.all([
+        axios.get("https://jsonplaceholder.typicode.com/posts?_limit=5"),
+        axios.get("https://jsonplaceholder.typicode.com/users?_limit=5"),
+    ]).then((responses) => {
+        console.table(responses[0].data);
+        console.table(responses[1].data);
+    });
 };
 
 const transform = () => {
-    console.log("transform");
+    const config = {
+        params: {
+            _limit: 5,
+        },
+        transformResponse: [
+            function (data) {
+                const payload = JSON.parse(data).map((objeto) => {
+                    return {
+                        title: objeto.title,
+                    };
+                });
+                return payload;
+            },
+        ],
+    };
+    axios
+        .get("https://jsonplaceholder.typicode.com/posts", config)
+        .then((response) => renderOutput(response));
 };
 
 const errorHandling = () => {
