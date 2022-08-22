@@ -49,6 +49,7 @@ const patch = () => {
 };
 
 const del = () => {
+    /* para deletar um dado do servidor */
     const id = 12;
     axios
         .delete(`https://jsonplaceholder.typicode.com/posts/${id}`)
@@ -56,6 +57,7 @@ const del = () => {
 };
 
 const multiple = () => {
+    /* para multiplos pedidos em uma requisição */
     Promise.all([
         axios.get("https://jsonplaceholder.typicode.com/posts?_limit=5"),
         axios.get("https://jsonplaceholder.typicode.com/users?_limit=5"),
@@ -66,6 +68,7 @@ const multiple = () => {
 };
 
 const transform = () => {
+    /* para trasnformar o dado apos a consulto e antes de rendereizar na tela */
     const config = {
         params: {
             _limit: 5,
@@ -87,11 +90,30 @@ const transform = () => {
 };
 
 const errorHandling = () => {
-    console.log("errorHandling");
+    /* para tratamento de erros em consultas */
+    axios
+        .get("https://jsonplaceholder.typicode.com/postsz")
+        .then((response) => renderOutput(response))
+        .catch((error) => renderOutput(error.response));
 };
 
+/* metodo para cancelar uma requisição em andamento */
 const cancel = () => {
-    console.log("cancel");
+    const controller = new AbortController();
+    const config = {
+        params: {
+            _limit: 5,
+        },
+        signal: controller.signal,
+    };
+    axios
+        .get("https://jsonplaceholder.typicode.com/posts", config)
+        .then((response) => renderOutput(response))
+        .catch((e) => {
+            console.log(e.message);
+        });
+
+    controller.abort();
 };
 
 const clear = () => {
