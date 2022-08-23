@@ -3,6 +3,43 @@ const dataEl = document.getElementById("data");
 const headersEl = document.getElementById("headers");
 const configEl = document.getElementById("config");
 
+/* Requisições globais - Interceptores */
+/* uso mais comum dos interceptors é para autorização de requisições ao backend */
+axios.interceptors.request.use(
+    (config) => {
+        config.headers.common["Authorization"] = "Bearer 12345";
+        config.data = {
+            name: "Hataru San",
+        };
+        console.log(config);
+        return config;
+    },
+    function (error) {
+        // Faz alguma coisa com o erro da requisição
+        return Promise.reject(error);
+    }
+);
+
+// Adiciona um interceptador na resposta
+axios.interceptors.response.use(
+    function (response) {
+        // Qualquer código de status que dentro do limite de 2xx faz com que está função seja acionada
+        // Faz alguma coisa com os dados de resposta
+        console.log("sucesso na resposta");
+        console.log(response);
+        return response;
+    },
+    function (error) {
+        // Qualquer código de status que não esteja no limite do código 2xx faz com que está função seja acionada
+        // Faz alguma coisa com o erro da resposta
+
+        /* é util para evitar o catch em todas as requisições abaixo */
+        console.log("erro na resposta");
+        console.log(error);
+        return Promise.reject(error);
+    }
+);
+
 const get = () => {
     const config = {
         params: {
