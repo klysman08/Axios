@@ -3,6 +3,19 @@ const dataEl = document.getElementById("data");
 const headersEl = document.getElementById("headers");
 const configEl = document.getElementById("config");
 
+/* Configurações globais */
+
+axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
+axios.defaults.headers["Content-Type"] = "application/json";
+
+// Define as configurações padrões quando cria a instância
+const instance = axios.create({
+    baseURL: "https://jsonplaceholder.typicode.com",
+});
+
+// Altera as configurações padrões após a instância ser criada
+instance.defaults.headers.common["Authorization"] = "AUTH_TOKEN new axios";
+
 /* Requisições globais - Interceptores */
 /* uso mais comum dos interceptors é para autorização de requisições ao backend */
 axios.interceptors.request.use(
@@ -80,9 +93,7 @@ const patch = () => {
         title: "Klysman2",
         body: "bar2",
     };
-    axios
-        .patch("https://jsonplaceholder.typicode.com/posts/1", data)
-        .then((response) => renderOutput(response));
+    instance.patch("posts/1", data).then((response) => renderOutput(response)); // usa o baseURL
 };
 
 const del = () => {
