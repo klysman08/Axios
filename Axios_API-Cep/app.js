@@ -17,22 +17,38 @@ function run(e) {
   /*     console.log(zipCode); */
   /*  */
   axios
-    .get("https://viacep.com.br/ws/" + zipCode + "/json/")
-    .then(function (response) {
-      /*  console.log(response) */
-      content.innerHTML = "";
+  .get(`https://viacep.com.br/ws/${zipCode}/json/`)
+  .then(function (response) {
+    // Clear the content of the HTML element
+    content.innerHTML = "";
+
+    // Create a new line for each piece of address information returned by the API
+    if (response.data.logradouro) {
       createLine(response.data.logradouro);
+    }
+    if (response.data.bairro) {
       createLine(response.data.bairro);
+    }
+    if (response.data.localidade) {
       createLine(response.data.localidade);
-      endereco = response.data.logradouro;
-      /* console.log(endereco) */
-    })
-    .catch(function (error) {
-      console.log(error);
-      content.innerHTML = "";
-      createLine("CEP não encontrado");
-    });
-}
+    }
+
+    // Store the street name in a variable
+    const endereco = response.data.logradouro;
+
+    // Log the street name to the console
+    console.log(endereco);
+  })
+  .catch(function (error) {
+    // Log the error to the console
+    console.log(error);
+
+    // Clear the content of the HTML element
+    content.innerHTML = "";
+
+    // Display a message to the user indicating that the zip code was not found
+    createLine("CEP não encontrado");
+  });
 
 console.log(endereco);
 
